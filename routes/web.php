@@ -24,7 +24,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PortfolioController::class, 'index'])->name('portfolio');
 Route::get('/login', [AuthController::class, 'create'])->name('login');
-Route::post('/login', [AuthController::class, 'store'])->name('login.store');
+Route::post('/login', [AuthController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('login.store');
 Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');
 
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
